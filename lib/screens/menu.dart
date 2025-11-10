@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-
+import 'package:football_shop_mobile/widgets/left_drawer.dart';
+import 'package:football_shop_mobile/screens/productlist_form.dart';
 
 class MenuPage extends StatelessWidget {
-  const MenuPage({Key? key}) : super(key: key);
+  const MenuPage({super.key});
 
   void _showSnackBar(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -20,6 +21,7 @@ class MenuPage extends StatelessWidget {
         title: const Text('Football Shop'),
         centerTitle: true,
       ),
+      drawer: LeftDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -84,8 +86,19 @@ class MenuPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                onPressed: () => _showSnackBar(
-                    context, 'Kamu telah menekan tombol Create Product'),
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Kamu telah menekan tombol Create Product'),
+                      behavior: SnackBarBehavior.floating,
+                    ),
+                  );
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const ProductFormPage()),
+                  );
+                },         
               ),
             ),
           ],
