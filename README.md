@@ -112,4 +112,7 @@ Biasanya digunakan di metode build(BuildContext context):
 Jawab: 
 Hot Reload : Menyimpan dan menerapkan perubahan kode langsung tanpa kehilangan state aplikasi (data tetap ada). Digunakan hanya saat mengubah tampilan UI atau teks.
 Hot Restart: Memulai ulang seluruh aplikasi dari awal (state di-reset). Digunakan saat mengubah kode yang memengaruhi logika awal, seperti inisialisasi variabel global.
-
+</details>
+<details>
+<Summary><b>Tugas 8</b></Summary>
+</details>
