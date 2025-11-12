@@ -4,10 +4,7 @@ Rousan Chandra Syahbunan – 2406435894
 
 <details>
 <Summary><b>Tugas 7</b></Summary>
-Jelaskan apa itu widget tree pada Flutter dan bagaimana hubungan parent-child (induk-anak) bekerja antar widget.
-
-
-
+1. Jelaskan apa itu widget tree pada Flutter dan bagaimana hubungan parent-child (induk-anak) bekerja antar widget.
 
 
 Dalam Flutter, semua elemen tampilan adalah widget — mulai dari tombol, teks, gambar, hingga tata letak seperti Column dan Row.  
@@ -148,5 +145,6 @@ Jawab:
 
 
 </details>
+
 
 
