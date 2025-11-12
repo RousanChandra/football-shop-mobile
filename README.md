@@ -115,4 +115,25 @@ Hot Restart: Memulai ulang seluruh aplikasi dari awal (state di-reset). Digunaka
 </details>
 <details>
 <Summary><b>Tugas 8</b></Summary>
+1. Jelaskan perbedaan antara Navigator.push() dan Navigator.pushReplacement() pada Flutter. Dalam kasus apa sebaiknya masing-masing digunakan pada aplikasi Football Shop kamu?
+    Jawab:
+1) Navigator.push()
+Digunakan untuk menambahkan (push) halaman baru ke dalam navigation stack tanpa menghapus halaman sebelumnya.
+Pengguna masih dapat kembali ke halaman sebelumnya dengan menekan tombol Back.
+→ Pada aplikasi Football Shop, Navigator.push() cocok digunakan saat pengguna ingin membuka halaman Tambah Produk dari halaman utama, karena setelah menambahkan produk, pengguna mungkin ingin kembali ke halaman utama.
+
+2) Navigator.pushReplacement()
+Digunakan untuk mengganti (replace) halaman saat ini dengan halaman baru, sehingga halaman sebelumnya dihapus dari stack.
+Pengguna tidak bisa kembali ke halaman sebelumnya menggunakan tombol Back.
+→ Pada aplikasi Football Shop, Navigator.pushReplacement() cocok digunakan misalnya saat berpindah antar-halaman utama melalui Drawer (misalnya dari Halaman Utama ke Tambah Produk), agar halaman sebelumnya tidak menumpuk di stack dan navigasi tetap bersih.
+2. Bagaimana kamu memanfaatkan hierarchy widget seperti Scaffold, AppBar, dan Drawer untuk membangun struktur halaman yang konsisten di seluruh aplikasi?
+Jawab:
+Prinsip utama
+
+1) Scaffold = kerangka halaman. Semua halaman layar utama pakai Scaffold sehingga memiliki struktur yang familiar: appBar, drawer (opsional), body, floatingActionButton, bottomNavigationBar.
+2) AppBar = header konsisten. Gunakan AppBar untuk judul halaman, tombol aksi (search, cart), dan navigasi (back/leading). Warna, font, dan tinggi diseragamkan lewat Theme.
+3) Drawer = navigasi top-level. Taruh link ke halaman-halaman setara (Home, Tambah Produk, Profil, dsb). Tutup drawer (Navigator.pop) sebelum berpindah halaman. Untuk navigasi antar halaman utama, gunakan pushReplacement() supaya stack tidak menumpuk.
+
+
 </details>
+
