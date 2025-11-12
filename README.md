@@ -117,12 +117,13 @@ Hot Restart: Memulai ulang seluruh aplikasi dari awal (state di-reset). Digunaka
 <Summary><b>Tugas 8</b></Summary>
 1. Jelaskan perbedaan antara Navigator.push() dan Navigator.pushReplacement() pada Flutter. Dalam kasus apa sebaiknya masing-masing digunakan pada aplikasi Football Shop kamu?
     Jawab:
-1) Navigator.push()
+
+- Navigator.push()
 Digunakan untuk menambahkan (push) halaman baru ke dalam navigation stack tanpa menghapus halaman sebelumnya.
 Pengguna masih dapat kembali ke halaman sebelumnya dengan menekan tombol Back.
 → Pada aplikasi Football Shop, Navigator.push() cocok digunakan saat pengguna ingin membuka halaman Tambah Produk dari halaman utama, karena setelah menambahkan produk, pengguna mungkin ingin kembali ke halaman utama.
 
-2) Navigator.pushReplacement()
+- Navigator.pushReplacement()
 Digunakan untuk mengganti (replace) halaman saat ini dengan halaman baru, sehingga halaman sebelumnya dihapus dari stack.
 Pengguna tidak bisa kembali ke halaman sebelumnya menggunakan tombol Back.
 → Pada aplikasi Football Shop, Navigator.pushReplacement() cocok digunakan misalnya saat berpindah antar-halaman utama melalui Drawer (misalnya dari Halaman Utama ke Tambah Produk), agar halaman sebelumnya tidak menumpuk di stack dan navigasi tetap bersih.
@@ -130,10 +131,22 @@ Pengguna tidak bisa kembali ke halaman sebelumnya menggunakan tombol Back.
 Jawab:
 Prinsip utama
 
-1) Scaffold = kerangka halaman. Semua halaman layar utama pakai Scaffold sehingga memiliki struktur yang familiar: appBar, drawer (opsional), body, floatingActionButton, bottomNavigationBar.
-2) AppBar = header konsisten. Gunakan AppBar untuk judul halaman, tombol aksi (search, cart), dan navigasi (back/leading). Warna, font, dan tinggi diseragamkan lewat Theme.
-3) Drawer = navigasi top-level. Taruh link ke halaman-halaman setara (Home, Tambah Produk, Profil, dsb). Tutup drawer (Navigator.pop) sebelum berpindah halaman. Untuk navigasi antar halaman utama, gunakan pushReplacement() supaya stack tidak menumpuk.
+- Scaffold = kerangka halaman. Semua halaman layar utama pakai Scaffold sehingga memiliki struktur yang familiar: appBar, drawer (opsional), body, floatingActionButton, bottomNavigationBar.
+- AppBar = header konsisten. Gunakan AppBar untuk judul halaman, tombol aksi (search, cart), dan navigasi (back/leading). Warna, font, dan tinggi diseragamkan lewat Theme.
+- Drawer = navigasi top-level. Taruh link ke halaman-halaman setara (Home, Tambah Produk, Profil, dsb). Tutup drawer (Navigator.pop) sebelum berpindah halaman. Untuk navigasi antar halaman utama, gunakan pushReplacement() supaya stack tidak menumpuk.
+
+3. Dalam konteks desain antarmuka, apa kelebihan menggunakan layout widget seperti Padding, SingleChildScrollView, dan ListView saat menampilkan elemen-elemen form? Berikan contoh penggunaannya dari aplikasi kamu.
+Jawab:
+
+Penggunaan layout widget seperti Padding, SingleChildScrollView, dan ListView sangat penting untuk memastikan tampilan form tetap rapi, responsif, dan mudah digunakan pada berbagai ukuran layar.
+- Padding digunakan untuk memberikan jarak antar-elemen agar tampilan tidak terlalu rapat dan lebih nyaman dilihat. Misalnya, pada halaman Tambah Produk di aplikasi Football Shop, setiap TextFormField dibungkus dengan Padding agar input seperti Nama Produk, Harga, dan Deskripsi memiliki jarak yang seimbang.
+- SingleChildScrollView digunakan agar form dapat di-scroll ketika elemen-elemen di dalamnya melebihi tinggi layar. Ini sangat membantu agar pengguna tetap dapat mengakses tombol Save meskipun tampilan form panjang, terutama saat keyboard muncul di layar kecil.
+- ListView digunakan ketika terdapat banyak elemen input yang ingin ditampilkan secara vertikal dan dinamis. Dengan ListView, setiap komponen akan otomatis bisa di-scroll tanpa overflow error, menjaga tampilan form tetap responsif.
+
+4. Bagaimana kamu menyesuaikan warna tema agar aplikasi Football Shop memiliki identitas visual yang konsisten dengan brand toko?
+Jawab:
 
 
 </details>
+
 
