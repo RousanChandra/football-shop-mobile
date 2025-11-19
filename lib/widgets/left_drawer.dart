@@ -1,6 +1,7 @@
 import 'package:football_shop_mobile/screens/menu.dart';
 import 'package:football_shop_mobile/screens/productlist_form.dart';
 import 'package:flutter/material.dart';
+import 'package:football_shop_mobile/screens/product_entry_list.dart';
 // import 'package:football_news_mobile/screens/newslist_form.dart';
 
 
@@ -32,7 +33,7 @@ class LeftDrawer extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                     fontSize: 15,
-                    color: Colors.blue,
+                    color: Colors.white70,
                     fontWeight: FontWeight.normal,
                         )
                     ),
@@ -44,6 +45,7 @@ class LeftDrawer extends StatelessWidget {
               title: const Text('Halaman Utama'),
               // Bagian redirection ke MyHomePage
               onTap: () {
+                Navigator.pop(context); 
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
@@ -56,6 +58,7 @@ class LeftDrawer extends StatelessWidget {
               title: const Text('Tambah Produk'),
               // Bagian redirection ke NewsFormPage
               onTap: () {
+                Navigator.pop(context); 
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
@@ -64,6 +67,17 @@ class LeftDrawer extends StatelessWidget {
                 );
               },
             ),
+            ListTile(
+              leading: const Icon(Icons.add_reaction_rounded),
+              title: const Text('Product List'),
+              onTap: () {
+                  // Route to news list page
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const ProductEntryListPage()),
+                  );
+              },
+          ),
         ],
       ),
     );
