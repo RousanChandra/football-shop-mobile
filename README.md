@@ -195,8 +195,7 @@ Dengan menggunakan ThemeData dan ColorScheme.fromSeed(), seluruh komponen aplika
     );
 Warna ungu tua (Colors.deepPurple) dipilih sebagai warna utama untuk memberikan kesan elegan dan profesional, sesuai citra toko olahraga yang modern.
 Selain itu, setiap halaman menggunakan Scaffold dengan AppBar dan Drawer yang konsisten, sehingga identitas visual aplikasi tetap seragam di seluruh tampilan.
-
-
+</details>
 <details>
 <Summary><b>Tugas 9</b></Summary>
 1. Jelaskan mengapa kita perlu membuat model Dart saat mengambil/mengirim data JSON? Apa konsekuensinya jika langsung memetakan Map<String, dynamic> tanpa model (terkait validasi tipe, null-safety, maintainability)?
@@ -513,6 +512,7 @@ Fetch user’s products
 Logout
     
 </details>
+
 
 
 
