@@ -196,7 +196,325 @@ Dengan menggunakan ThemeData dan ColorScheme.fromSeed(), seluruh komponen aplika
 Warna ungu tua (Colors.deepPurple) dipilih sebagai warna utama untuk memberikan kesan elegan dan profesional, sesuai citra toko olahraga yang modern.
 Selain itu, setiap halaman menggunakan Scaffold dengan AppBar dan Drawer yang konsisten, sehingga identitas visual aplikasi tetap seragam di seluruh tampilan.
 
+
+<details>
+<Summary><b>Tugas 9</b></Summary>
+1. Jelaskan mengapa kita perlu membuat model Dart saat mengambil/mengirim data JSON? Apa konsekuensinya jika langsung memetakan Map<String, dynamic> tanpa model (terkait validasi tipe, null-safety, maintainability)?
+
+Membuat model Dart (class seperti Product) itu penting karena:
+
+a. Validasi tipe data (type-safety)
+
+Kalau pakai Map<String, dynamic> langsung:
+
+Semua nilai dianggap dynamic.
+
+Tidak ada jaminan bahwa "price" itu double, "name" itu String, atau "is_featured" itu bool.
+
+Ketika backend berubah struktur sedikit, Flutter bisa crash saat runtime.
+
+Dengan model Dart:
+
+Struktur data dikunci.
+
+Setiap field punya tipe jelas.
+
+Error muncul saat compile-time, bukan saat user sedang memakai aplikasi.
+
+b. Null safety
+
+Tanpa model:
+
+Kamu bisa dengan mudah mengakses key yang tidak ada, hasilnya null, dan nanti error:
+Null check operator used on a null value.
+
+Tracking error jadi susah.
+
+Dengan model:
+
+Bisa memastikan nilai wajib tidak null.
+
+Bisa memberi default value.
+
+Ada mekanisme required.
+
+c. Maintainability dan scalability
+
+Saat project makin besar:
+
+View → pakai model
+
+Provider → pakai model
+
+API service → pakai model
+
+Kalau semuanya cuma Map:
+
+Tidak ada dokumentasi struktur data.
+
+Susah membaca kode.
+
+Setiap halaman harus decode JSON berulang-ulang → rawan typo.
+
+Model itu ibarat kontrak antara Flutter dan Django.
+Tanpa model, kontraknya kacau dan rawan error.
+
+2. Apa fungsi package http dan CookieRequest? Apa perbedaan perannya?
+Package http
+
+Untuk melakukan request HTTP biasa (GET, POST).
+
+Tidak menyimpan cookie.
+
+Tidak bisa login session Django secara otomatis.
+
+Cocok untuk:
+
+API publik
+
+Request tanpa autentikasi
+
+Akses REST biasa
+
+CookieRequest (punya PBP Django Auth)
+
+Dibuat khusus untuk komunikasi Flutter ↔ Django.
+
+Menyimpan session cookie setelah login.
+
+Meneruskan cookie secara otomatis di setiap request.
+
+Sinkron dengan sistem auth Django.
+
+Kesimpulan:
+http → request biasa.
+CookieRequest → request yang butuh cookie, login, dan autentikasi Django.
+
+3. Mengapa instance CookieRequest perlu dibagikan ke semua komponen Flutter?
+
+Karena:
+
+CookieRequest menyimpan session login user.
+
+Kalau tiap halaman bikin instance baru → cookie hilang → Django anggap kamu "belum login".
+
+Tidak bisa fetch data yang butuh autentikasi.
+
+Logout juga tidak sinkron.
+
+Makanya, CookieRequest dibagikan lewat:
+
+Provider(create: (_) => CookieRequest())
+
+
+Agar:
+
+Semua halaman memakai instance yang sama
+
+Session tidak hilang
+
+User tetap login selama aplikasi berjalan
+
+4. Konfigurasi konektivitas yang wajib agar Flutter terhubung dengan Django
+a. Menambahkan 10.0.2.2 pada ALLOWED_HOSTS
+
+Android emulator tidak bisa akses localhost.
+10.0.2.2 = alias dari localhost untuk emulator.
+
+Jika tidak ditambahkan:
+
+Django akan menolak request karena disallowed host.
+
+Error: Invalid HTTP_HOST header.
+
+b. Mengaktifkan CORS (django-cors-headers)
+
+Diperlukan agar client (Flutter) boleh mengakses server Django.
+
+Jika tidak:
+
+Request akan diblokir oleh browser-policy/CORS.
+
+Error: CORS blocked request.
+
+c. Pengaturan cookie: SameSite=None + Secure=False
+
+Session login Django dikirim lewat cookie.
+Android/Web membutuhkan:
+
+SameSite=None → boleh lintas domain
+
+Secure=False → cookie tetap dikirim walau tidak HTTPS (untuk local dev)
+
+Kalau salah:
+
+Cookie tidak terkirim → login selalu gagal.
+
+d. Menambahkan permission internet di Android
+
+Di AndroidManifest.xml:
+
+<uses-permission android:name="android.permission.INTERNET"/>
+
+
+Jika tidak:
+
+Flutter tidak bisa mengirim request
+
+Semua API gagal
+
+5. Mekanisme pengiriman data dari input → Django → kembali ke Flutter
+1. User mengisi form di Flutter
+
+Misal form Create Product.
+
+2. Flutter mengirim POST request (via CookieRequest)
+
+Berisi body JSON:
+
+{
+  "name": "...",
+  "price": "...",
+  "category": "..."
+}
+
+3. Django menerima request
+
+Memvalidasi data
+
+Menyimpan ke database (ORM)
+
+Balikkan response JSON
+
+4. Flutter menerima response
+
+Decode JSON
+
+Jika success, tampilkan notifikasi / kembali ke page sebelumnya
+
+5. Flutter melakukan GET untuk menampilkan data
+
+Flutter panggil endpoint seperti /get_products/
+
+Django mengirim list JSON
+
+Flutter convert JSON → model
+
+Ditampilkan sebagai widget list
+
+6. Mekanisme autentikasi login → register → logout
+a. Register
+
+User isi form register di Flutter.
+
+Flutter POST ke Django /auth/register/.
+
+Django create user baru.
+
+Flutter mendapat response “success”.
+
+b. Login
+
+Flutter POST username/password ke /auth/login/.
+
+Django cek user + password.
+
+Kalau valid, Django mengirim session cookie.
+
+CookieRequest menyimpannya.
+
+Semua request selanjutnya otomatis memakai cookie itu.
+
+Flutter navigate ke MenuPage (user masuk aplikasi).
+
+c. Logout
+
+Flutter memanggil request.logout().
+
+Django menghapus session.
+
+CookieRequest menghapus cookie.
+
+Flutter kembali ke LoginPage.
+
+7. Implementasi checklist secara step-by-step (versi detail)
+A. Membuat model Django
+
+Buat model Product (field name, price, category, thumbnail, dsb).
+
+Buat migration → migrate.
+
+B. Membuat endpoint JSON
+
+get_products()
+
+get_my_products()
+
+create_product()
+
+C. Mengaktifkan auth Django
+
+Install PBP Django Auth.
+
+Tambahkan di settings.
+
+Buat endpoint login/logout/register.
+
+D. Setup CORS & cookies
+
+Install django-cors-headers.
+
+Tambahkan ke INSTALLED_APPS + MIDDLEWARE.
+
+Konfigurasi Allowed origins, SameSite, Secure, Host header.
+
+E. Setup Flutter
+
+Install provider + pbp_django_auth.
+
+Tambahkan CookieRequest ke root (multi-provider).
+
+Buat LoginPage, RegisterPage, MenuPage.
+
+F. Buat model Dart
+
+Product dengan factory fromJson.
+
+G. Fetch data
+
+Buat service untuk GET/POST request menggunakan CookieRequest.
+
+Test endpoint dengan snackbar.
+
+H. Buat UI
+
+All Products list
+
+My Products list
+
+Create Product form
+
+Drawer + navigasi
+
+Logout button
+
+I. Testing end-to-end
+
+Register
+
+Login
+
+Create product
+
+Fetch all products
+
+Fetch user’s products
+
+Logout
+    
 </details>
+
+
 
 
 
