@@ -15,8 +15,7 @@ class _MyProductsPageState extends State<MyProductsPage> {
 
   Future<void> fetchProducts() async {
     final request = context.read<CookieRequest>();
-    final response =
-        await request.get("http://localhost:8000/auth/my-products/");
+    final response = await request.get("http://localhost:8000/my-products/");
 
     setState(() {
       products = response;
@@ -45,8 +44,20 @@ class _MyProductsPageState extends State<MyProductsPage> {
                     return Card(
                       margin: const EdgeInsets.all(10),
                       child: ListTile(
-                        title: Text(p["name"]),
-                        subtitle: Text("Price: ${p["price"]}"),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Price: ${p["price"]}"),
+                              Text("Category: ${p["category"] ?? '-'}"),
+                              Text("Featured: ${p["isFeatured"] == true ? 'YES' : 'NO'}"),
+                              const SizedBox(height: 5),
+                              Text(
+                                p["description"] ?? "",
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
                       ),
                     );
                   },
