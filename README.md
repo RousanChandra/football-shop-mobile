@@ -200,61 +200,40 @@ Selain itu, setiap halaman menggunakan Scaffold dengan AppBar dan Drawer yang ko
 <Summary><b>Tugas 9</b></Summary>
 1. Jelaskan mengapa kita perlu membuat model Dart saat mengambil/mengirim data JSON? Apa konsekuensinya jika langsung memetakan Map<String, dynamic> tanpa model (terkait validasi tipe, null-safety, maintainability)?
 
-Membuat model Dart (class seperti Product) itu penting karena:
+Jawab: Membuat model Dart (class seperti Product) itu penting karena:
 
 a. Validasi tipe data (type-safety)
 
 Kalau pakai Map<String, dynamic> langsung:
-
-Semua nilai dianggap dynamic.
-
-Tidak ada jaminan bahwa "price" itu double, "name" itu String, atau "is_featured" itu bool.
-
-Ketika backend berubah struktur sedikit, Flutter bisa crash saat runtime.
-
+- Semua nilai dianggap dynamic.
+- Tidak ada jaminan bahwa "price" itu double, "name" itu String, atau "is_featured" itu bool.
+- Ketika backend berubah struktur sedikit, Flutter bisa crash saat runtime.
 Dengan model Dart:
-
-Struktur data dikunci.
-
-Setiap field punya tipe jelas.
-
-Error muncul saat compile-time, bukan saat user sedang memakai aplikasi.
+- Struktur data dikunci.
+- Setiap field punya tipe jelas.
+- Error muncul saat compile-time, bukan saat user sedang memakai aplikasi.
 
 b. Null safety
 
 Tanpa model:
-
-Kamu bisa dengan mudah mengakses key yang tidak ada, hasilnya null, dan nanti error:
-Null check operator used on a null value.
-
-Tracking error jadi susah.
-
+- Kamu bisa dengan mudah mengakses key yang tidak ada, hasilnya null, dan nanti error: Null check operator used on a null value.
+- Tracking error jadi susah.
 Dengan model:
-
-Bisa memastikan nilai wajib tidak null.
-
-Bisa memberi default value.
-
-Ada mekanisme required.
+- Bisa memastikan nilai wajib tidak null.
+- Bisa memberi default value.
+- Ada mekanisme required.
 
 c. Maintainability dan scalability
 
 Saat project makin besar:
-
-View → pakai model
-
-Provider → pakai model
-
-API service → pakai model
+- View → pakai model
+- Provider → pakai model
+- API service → pakai model
 
 Kalau semuanya cuma Map:
-
-Tidak ada dokumentasi struktur data.
-
-Susah membaca kode.
-
-Setiap halaman harus decode JSON berulang-ulang → rawan typo.
-
+- Tidak ada dokumentasi struktur data.
+- Susah membaca kode.
+- Setiap halaman harus decode JSON berulang-ulang → rawan typo.
 Model itu ibarat kontrak antara Flutter dan Django.
 Tanpa model, kontraknya kacau dan rawan error.
 
@@ -512,6 +491,7 @@ Fetch user’s products
 Logout
     
 </details>
+
 
 
 
