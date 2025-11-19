@@ -208,6 +208,7 @@ Kalau pakai Map<String, dynamic> langsung:
 - Semua nilai dianggap dynamic.
 - Tidak ada jaminan bahwa "price" itu double, "name" itu String, atau "is_featured" itu bool.
 - Ketika backend berubah struktur sedikit, Flutter bisa crash saat runtime.
+
 Dengan model Dart:
 - Struktur data dikunci.
 - Setiap field punya tipe jelas.
@@ -218,6 +219,7 @@ b. Null safety
 Tanpa model:
 - Kamu bisa dengan mudah mengakses key yang tidak ada, hasilnya null, dan nanti error: Null check operator used on a null value.
 - Tracking error jadi susah.
+
 Dengan model:
 - Bisa memastikan nilai wajib tidak null.
 - Bisa memberi default value.
@@ -234,65 +236,49 @@ Kalau semuanya cuma Map:
 - Tidak ada dokumentasi struktur data.
 - Susah membaca kode.
 - Setiap halaman harus decode JSON berulang-ulang → rawan typo.
+
 Model itu ibarat kontrak antara Flutter dan Django.
 Tanpa model, kontraknya kacau dan rawan error.
 
 2. Apa fungsi package http dan CookieRequest? Apa perbedaan perannya?
 Package http
-
-Untuk melakukan request HTTP biasa (GET, POST).
-
-Tidak menyimpan cookie.
-
-Tidak bisa login session Django secara otomatis.
-
-Cocok untuk:
-
+- Untuk melakukan request HTTP biasa (GET, POST).
+- Tidak menyimpan cookie.
+- Tidak bisa login session Django secara otomatis.
+- Cocok untuk:
 API publik
 
 Request tanpa autentikasi
 
 Akses REST biasa
 
-CookieRequest (punya PBP Django Auth)
-
-Dibuat khusus untuk komunikasi Flutter ↔ Django.
-
-Menyimpan session cookie setelah login.
-
-Meneruskan cookie secara otomatis di setiap request.
-
-Sinkron dengan sistem auth Django.
+- CookieRequest (punya PBP Django Auth)
+- Dibuat khusus untuk komunikasi Flutter ↔ Django.
+- Menyimpan session cookie setelah login.
+- Meneruskan cookie secara otomatis di setiap request.
+- Sinkron dengan sistem auth Django.
 
 Kesimpulan:
-http → request biasa.
-CookieRequest → request yang butuh cookie, login, dan autentikasi Django.
+- http → request biasa
+- CookieRequest → request yang butuh cookie, login, dan autentikasi Django.
 
 3. Mengapa instance CookieRequest perlu dibagikan ke semua komponen Flutter?
 
 Karena:
+- CookieRequest menyimpan session login user.
+- Kalau tiap halaman bikin instance baru → cookie hilang → Django anggap kamu "belum login".
+- Tidak bisa fetch data yang butuh autentikasi.
+- Logout juga tidak sinkron.
 
-CookieRequest menyimpan session login user.
-
-Kalau tiap halaman bikin instance baru → cookie hilang → Django anggap kamu "belum login".
-
-Tidak bisa fetch data yang butuh autentikasi.
-
-Logout juga tidak sinkron.
-
-Makanya, CookieRequest dibagikan lewat:
-
-Provider(create: (_) => CookieRequest())
-
+Makanya, CookieRequest dibagikan lewat: 
+    
+    Provider(create: (_) => CookieRequest())
 
 Agar:
-
-Semua halaman memakai instance yang sama
-
-Session tidak hilang
-
-User tetap login selama aplikasi berjalan
-
+- Semua halaman memakai instance yang sama
+- Session tidak hilang
+- User tetap login selama aplikasi berjalan
+- 
 4. Konfigurasi konektivitas yang wajib agar Flutter terhubung dengan Django
 a. Menambahkan 10.0.2.2 pada ALLOWED_HOSTS
 
@@ -491,6 +477,7 @@ Fetch user’s products
 Logout
     
 </details>
+
 
 
 
